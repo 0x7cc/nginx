@@ -1047,6 +1047,34 @@ ngx_atofp(u_char *line, size_t n, size_t point)
 }
 
 
+int64_t
+ngx_atoi64(u_char *line, size_t n)
+{
+    int64_t  value, cutoff, cutlim;
+
+    if (n == 0) {
+        return NGX_ERROR;
+    }
+
+    cutoff = 0x7FFFFFFFFFFFFFFFLL / 10;
+    cutlim = 0x7FFFFFFFFFFFFFFFLL % 10;
+
+    for (value = 0; n--; line++) {
+        if (*line < '0' || *line > '9') {
+            return NGX_ERROR;
+        }
+
+        if (value >= cutoff && (value > cutoff || *line - '0' > cutlim)) {
+            return NGX_ERROR;
+        }
+
+        value = value * 10 + (*line - '0');
+    }
+
+    return value;
+}
+
+
 ssize_t
 ngx_atosz(u_char *line, size_t n)
 {
