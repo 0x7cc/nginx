@@ -681,6 +681,15 @@ if [ $HTTP = YES ]; then
         ngx_module_link=$HTTP_SSL
 
         . auto/module
+
+        ngx_module_name=ngx_http_tsa_module
+        ngx_module_incs=
+        ngx_module_deps=
+        ngx_module_srcs=src/http/modules/ngx_http_tsa_module.c
+        ngx_module_libs=
+        ngx_module_link=YES
+
+        . auto/module
     fi
 
     if [ $HTTP_PROXY = YES ]; then
